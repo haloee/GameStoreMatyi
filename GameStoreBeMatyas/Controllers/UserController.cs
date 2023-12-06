@@ -97,6 +97,7 @@ namespace GameStoreBeMatyas.Controllers
         [Route("{id:int}")]
         public async Task<IActionResult> DeleteUser(int id)
         {
+            //git flow test
             var user = await _gameStoreContext.Users.FindAsync(id);
             if (user != null)
             {
