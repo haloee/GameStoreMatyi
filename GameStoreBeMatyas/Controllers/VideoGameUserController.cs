@@ -61,7 +61,7 @@ namespace GameStoreBeMatyas.Controllers
         {
             await _Context.VideoGameUsers.AddAsync(gameUser);
             await _Context.SaveChangesAsync();
-            return Ok(new { message = "Game User created" });
+            return Ok(new { message = "created" });
         }
     }
 }
