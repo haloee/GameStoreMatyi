@@ -45,32 +45,32 @@ namespace GameStoreBeMatyas.Controllers
         //    public void Delete(int id)
         //    {
         //    }
-        private GameStoreContext _gameStoreContext;
+        private GameStoreContext _Context;
 
-        public UserController(GameStoreContext GameStoreContext)
+        public UserController(GameStoreContext Context)
         {
-            _gameStoreContext = GameStoreContext;
+            _Context = Context;
         }
 
         [HttpGet]
         public async Task<IActionResult> GetUsers()
         {
-            return Ok(await _gameStoreContext.Users.Include(a => a.VideoGames).ToListAsync());
+            return Ok(await _Context.Users.Include(a => a.VideoGames).ToListAsync());
         }
 
         [HttpPost]
         public async Task<IActionResult> CreateUser(User user)
         {
-            await _gameStoreContext.Users.AddAsync(user);
-            await _gameStoreContext.SaveChangesAsync();
+            await _Context.Users.AddAsync(user);
+            await _Context.SaveChangesAsync();
             return Ok(new { message = "User created" });
         }
 
         [HttpGet]
-        [Route("{id:int}")]
+        [Route("{id}")]
         public async Task<IActionResult> GetUser([FromRoute] int id)
         {
-            var user = await _gameStoreContext.Users.FindAsync(id);
+            var user = await _Context.Users.FindAsync(id);
             if (user == null)
             {
                 return NotFound();
@@ -79,30 +79,30 @@ namespace GameStoreBeMatyas.Controllers
         }
 
         [HttpPut]
-        [Route("{id:int}")]
+        [Route("{id}")]
         public async Task<IActionResult> UpdateUser([FromRoute] int id, User user)
         {
-            var newUser = await _gameStoreContext.Users.FindAsync(id);
+            var newUser = await _Context.Users.FindAsync(id);
             if (newUser != null)
             {
                 newUser.Email = user.Email;
                 newUser.PasswordHash = user.PasswordHash;
-                await _gameStoreContext.SaveChangesAsync();
+                await _Context.SaveChangesAsync();
                 return Ok(newUser);
             }
             return NotFound();
         }
 
         [HttpDelete]
-        [Route("{id:int}")]
+        [Route("{id}")]
         public async Task<IActionResult> DeleteUser(int id)
         {
             
-            var user = await _gameStoreContext.Users.FindAsync(id);
+            var user = await _Context.Users.FindAsync(id);
             if (user != null)
             {
-                _gameStoreContext.Remove(user);
-                _gameStoreContext.SaveChanges();
+                _Context.Remove(user);
+                _Context.SaveChanges();
                 return Ok(user);
             }
             return NotFound();

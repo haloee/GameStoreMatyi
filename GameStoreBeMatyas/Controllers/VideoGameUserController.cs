@@ -43,24 +43,24 @@ namespace GameStoreBeMatyas.Controllers
         //public void Delete(int id)
         //{
         //}
-        private GameStoreContext _gameStoreContext;
+        private GameStoreContext _Context;
 
-        public VideoGameUserController(GameStoreContext GameStoreContext)
+        public VideoGameUserController(GameStoreContext Context)
         {
-            _gameStoreContext = GameStoreContext;
+            _Context = Context;
         }
 
         [HttpGet]
         public async Task<IActionResult> GetVideoGameUsers()
         {
-            return Ok(await _gameStoreContext.VideoGameUsers.ToListAsync());
+            return Ok(await _Context.VideoGameUsers.ToListAsync());
         }
 
         [HttpPost]
         public async Task<IActionResult> CreateVideoGameUser(VideoGameUser gameUser)
         {
-            await _gameStoreContext.VideoGameUsers.AddAsync(gameUser);
-            await _gameStoreContext.SaveChangesAsync();
+            await _Context.VideoGameUsers.AddAsync(gameUser);
+            await _Context.SaveChangesAsync();
             return Ok(new { message = "Game User created" });
         }
     }

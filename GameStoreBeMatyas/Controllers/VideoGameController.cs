@@ -46,32 +46,32 @@ namespace GameStoreBeMatyas.Controllers
        
        
        
-            private GameStoreContext _gameStoreContext;
+            private GameStoreContext _Context;
 
-            public VideoGameController(GameStoreContext GameStoreContext)
+            public VideoGameController(GameStoreContext Context)
             {
-                _gameStoreContext = GameStoreContext;
+                _Context = Context;
             }
 
             [HttpGet]
             public async Task<IActionResult> GetVideoGames()
             {
-                return Ok(await _gameStoreContext.VideoGames.ToListAsync());
+                return Ok(await _Context.VideoGames.ToListAsync());
             }
 
             [HttpPost]
             public async Task<IActionResult> CreateVideoGame(VideoGame game)
             {
-                await _gameStoreContext.VideoGames.AddAsync(game);
-                await _gameStoreContext.SaveChangesAsync();
+                await _Context.VideoGames.AddAsync(game);
+                await _Context.SaveChangesAsync();
                 return Ok(new { message = "Game created" });
             }
 
             [HttpGet]
-            [Route("{id:int}")]
+            [Route("{id}")]
             public async Task<IActionResult> GetVideoGame([FromRoute] int id)
             {
-                var game = await _gameStoreContext.VideoGames.FindAsync(id);
+                var game = await _Context.VideoGames.FindAsync(id);
                 if (game == null)
                 {
                     return NotFound();
@@ -80,10 +80,10 @@ namespace GameStoreBeMatyas.Controllers
             }
 
             [HttpPut]
-            [Route("{id:int}")]
+            [Route("{id}")]
             public async Task<IActionResult> UpdateVideoGame([FromRoute] int id, VideoGame game)
             {
-                var newGame = await _gameStoreContext.VideoGames.FindAsync(id);
+                var newGame = await _Context.VideoGames.FindAsync(id);
                 if (newGame != null)
                 {
                     newGame.Title = game.Title;
@@ -91,21 +91,21 @@ namespace GameStoreBeMatyas.Controllers
                     newGame.Type = game.Type;
                     newGame.Price = game.Price;
                     newGame.Rating = game.Rating;
-                    await _gameStoreContext.SaveChangesAsync();
+                    await _Context.SaveChangesAsync();
                     return Ok(newGame);
                 }
                 return NotFound();
             }
 
             [HttpDelete]
-            [Route("{id:int}")]
+            [Route("{id}")]
             public async Task<IActionResult> DeleteVideoGame(int id)
             {
-                var game = await _gameStoreContext.VideoGames.FindAsync(id);
+                var game = await _Context.VideoGames.FindAsync(id);
                 if (game != null)
                 {
-                    _gameStoreContext.Remove(game);
-                    _gameStoreContext.SaveChanges();
+                    _Context.Remove(game);
+                    _Context.SaveChanges();
                     return Ok(game);
                 }
                 return NotFound();
